@@ -2,6 +2,8 @@ package br.com.caelum.ingresso.controller;
 
 import br.com.caelum.ingresso.dao.FilmeDao;
 import br.com.caelum.ingresso.dao.SessaoDao;
+import br.com.caelum.ingresso.integracao.DetalheDoFilme;
+import br.com.caelum.ingresso.integracao.ImdbCliente;
 import br.com.caelum.ingresso.model.Filme;
 import br.com.caelum.ingresso.model.Sessao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +30,18 @@ public class FilmeController {
     @Autowired
     private SessaoDao sessaoDao;
 
+    @Autowired
+    private ImdbCliente imdbCliente;
+
     @GetMapping("/filme/{id}/detalhe")
     public ModelAndView detalheDoFilme(@PathVariable("id") Integer id) {
         ModelAndView view = new ModelAndView("/filme/detalhe");
         Filme filmeParaSerRetornadoNaPagina = filmeDao.findOne(id);
 
+        Optional<DetalheDoFilme> detalheDoFilme = imdbCliente.buscaDetalheDeUmFilme(filmeParaSerRetornadoNaPagina);
         List<Sessao> sessoesDoFilme = sessaoDao.buscaSessoesDoFilme(filmeParaSerRetornadoNaPagina);
         view.addObject("sessoes", sessoesDoFilme);
+        view.addObject("detalhes", detalheDoFilme.orElse(new DetalheDoFilme()));
         return view;
     }
 

@@ -31,4 +31,12 @@ public class SessaoDao {
                 .setParameter("filme", filme)
                 .getResultList();
     }
+
+    public Sessao findOne(Integer sessaoId) {
+//        return manager.createQuery("select s from Sessao s where s.id = :idSessao", Sessao.class)
+//                .setParameter("idSessao", sessaoId)
+//                .getSingleResult();
+        return manager.find(Sessao.class, sessaoId);
+
+    }
 }

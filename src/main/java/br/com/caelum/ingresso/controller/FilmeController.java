@@ -38,7 +38,7 @@ public class FilmeController {
         ModelAndView view = new ModelAndView("/filme/detalhe");
         Filme filmeParaSerRetornadoNaPagina = filmeDao.findOne(id);
 
-        Optional<DetalheDoFilme> detalheDoFilme = imdbCliente.buscaDetalheDeUmFilme(filmeParaSerRetornadoNaPagina);
+        Optional<DetalheDoFilme> detalheDoFilme = imdbCliente.buscaDetalheDeUmFilme(filmeParaSerRetornadoNaPagina, DetalheDoFilme.class);
         List<Sessao> sessoesDoFilme = sessaoDao.buscaSessoesDoFilme(filmeParaSerRetornadoNaPagina);
         view.addObject("sessoes", sessoesDoFilme);
         view.addObject("detalhes", detalheDoFilme.orElse(new DetalheDoFilme()));

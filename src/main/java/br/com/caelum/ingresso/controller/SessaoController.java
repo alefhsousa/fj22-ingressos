@@ -3,11 +3,12 @@ package br.com.caelum.ingresso.controller;
 import br.com.caelum.ingresso.dao.FilmeDao;
 import br.com.caelum.ingresso.dao.SalaDao;
 import br.com.caelum.ingresso.dao.SessaoDao;
-import br.com.caelum.ingresso.integracao.ImagemDoFilme;
+import br.com.caelum.ingresso.integracao.ImagemCapa;
 import br.com.caelum.ingresso.integracao.ImdbCliente;
 import br.com.caelum.ingresso.model.Filme;
 import br.com.caelum.ingresso.model.Sala;
 import br.com.caelum.ingresso.model.Sessao;
+import br.com.caelum.ingresso.model.TipoDeIngresso;
 import br.com.caelum.ingresso.model.form.SessaoForm;
 import br.com.caelum.ingresso.validacao.ValidaSessao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,15 +40,6 @@ public class SessaoController {
     @Autowired
     private ImdbCliente imdbCliente;
 
-    @GetMapping("/sessao/{id}/lugares")
-    public ModelAndView lugaresDaSessao(@PathVariable("id") Integer sessaoId) {
-        Sessao sessao = sessaoDao.findOne(sessaoId);
-        ModelAndView view = new ModelAndView("sessao/lugares");
-        view.addObject("sessao", sessao);
-        Optional<ImagemDoFilme> imagemDoFilme = imdbCliente.buscaDetalheDeUmFilme(sessao.getFilme(), ImagemDoFilme.class);
-        view.addObject("imagemCapa", imagemDoFilme.orElse(new ImagemDoFilme()));
-        return view;
-    }
 
     @GetMapping("/admin/sessao")
     public ModelAndView form(@RequestParam("salaId") Integer id, SessaoForm form) {
@@ -81,4 +72,20 @@ public class SessaoController {
 
         return form(sessaoForm.getSalaId(), sessaoForm);
     }
+
+    @GetMapping("/sessao/{id}/lugares")
+    public ModelAndView lugaresNaSessao(@PathVariable("id") Integer sessaoId){
+        ModelAndView modelAndView = new ModelAndView("sessao/lugares");
+
+        Sessao sessao = sessaoDao.findOne(sessaoId);
+
+        Optional<ImagemCapa> imagemCapa = imdbCliente.buscaDetalheDeUmFilme(sessao.getFilme(), ImagemCapa.class);
+
+        modelAndView.addObject("sessao", sessao);
+        modelAndView.addObject("imagemCapa", imagemCapa.orElse(new ImagemCapa()));
+        modelAndView.addObject("tiposDeIngressos", TipoDeIngresso.values());
+
+        return modelAndView;
+    }
+
 }

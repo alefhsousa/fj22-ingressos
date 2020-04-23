@@ -36,7 +36,9 @@ public class SessaoDao {
 //        return manager.createQuery("select s from Sessao s where s.id = :idSessao", Sessao.class)
 //                .setParameter("idSessao", sessaoId)
 //                .getSingleResult();
-        return manager.find(Sessao.class, sessaoId);
+        Sessao sessao =  manager.find(Sessao.class, sessaoId);
+
+        sessao.getIngressos();
 
     }
 }

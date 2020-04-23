@@ -3,7 +3,6 @@ package br.com.caelum.ingresso.integracao;
 
 import br.com.caelum.ingresso.model.Filme;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;

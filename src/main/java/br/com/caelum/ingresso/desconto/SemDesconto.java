@@ -8,4 +8,9 @@ public class SemDesconto implements Desconto {
     public BigDecimal calculaDesconto(BigDecimal precoCheio) {
         return precoCheio;
     }
+
+    @Override
+    public String textParaSerApresentadoParaOCliente() {
+        return "Inteira";
+    }
 }

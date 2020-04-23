@@ -7,6 +7,9 @@ import java.math.RoundingMode;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Sessao {
@@ -25,6 +28,10 @@ public class Sessao {
 
     private BigDecimal preco;
 
+    @OneToMany(mappedBy = "sessao", fetch = FetchType.EAGER)
+    private Set<Ingresso> ingressos = new HashSet<>();
+
+
     /*
     *
     * @hibernate only
@@ -39,6 +46,15 @@ public class Sessao {
         this.sala = sala;
         this.horario = horario;
         this.preco = sala.getPreco().add(filme.getPreco());
+    }
+
+    public Lugar map(Ingresso ingresso) {
+        return ingresso.getLugar();
+
+    }
+    public boolean isDisponivel(Lugar lugarSelecionado) {
+
+        return ingressos.stream().map(Ingresso::getLugar).noneMatch(lugar -> lugar.equals(lugarSelecionado));
     }
 
 

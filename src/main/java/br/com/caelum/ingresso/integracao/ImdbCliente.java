@@ -11,7 +11,8 @@ import java.util.Optional;
 @Component
 public class ImdbCliente {
 
-    public Optional<DetalheDoFilme> buscaDetalheDeUmFilme(Filme filme) {
+
+    public <T> Optional<T> buscaDetalheDeUmFilme(Filme filme, Class<T> clazz) {
         RestTemplate restTemplate = new RestTemplate();
 
         String nomeFormatoParaNaoTerEspaco = filme.getNome().replace(" ", "+");
@@ -19,8 +20,7 @@ public class ImdbCliente {
 
 
         try {
-            DetalheDoFilme detalheDoFilme = restTemplate.getForObject(url, DetalheDoFilme.class);
-            return Optional.ofNullable(detalheDoFilme);
+            return Optional.ofNullable(restTemplate.getForObject(url, clazz));
         } catch (Exception ex) {
             ex.printStackTrace();
             return Optional.empty();

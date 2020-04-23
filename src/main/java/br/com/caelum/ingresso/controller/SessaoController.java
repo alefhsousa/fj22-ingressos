@@ -5,10 +5,7 @@ import br.com.caelum.ingresso.dao.SalaDao;
 import br.com.caelum.ingresso.dao.SessaoDao;
 import br.com.caelum.ingresso.integracao.ImagemCapa;
 import br.com.caelum.ingresso.integracao.ImdbCliente;
-import br.com.caelum.ingresso.model.Filme;
-import br.com.caelum.ingresso.model.Sala;
-import br.com.caelum.ingresso.model.Sessao;
-import br.com.caelum.ingresso.model.TipoDeIngresso;
+import br.com.caelum.ingresso.model.*;
 import br.com.caelum.ingresso.model.form.SessaoForm;
 import br.com.caelum.ingresso.validacao.ValidaSessao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +36,9 @@ public class SessaoController {
 
     @Autowired
     private ImdbCliente imdbCliente;
+
+    @Autowired
+    private Carrinho carrinho;
 
 
     @GetMapping("/admin/sessao")
@@ -84,6 +84,7 @@ public class SessaoController {
         modelAndView.addObject("sessao", sessao);
         modelAndView.addObject("imagemCapa", imagemCapa.orElse(new ImagemCapa()));
         modelAndView.addObject("tiposDeIngressos", TipoDeIngresso.values());
+        modelAndView.addObject("carrinho", carrinho);
 
         return modelAndView;
     }

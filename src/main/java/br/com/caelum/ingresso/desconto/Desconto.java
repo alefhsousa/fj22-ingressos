@@ -6,5 +6,7 @@ public interface Desconto {
 
     BigDecimal calculaDesconto(BigDecimal precoCheio);
 
+    String textParaSerApresentadoParaOCliente();
+
 }
 

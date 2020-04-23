@@ -1,4 +1,4 @@
-package br.com.caelum.ingresso.validacao.br.com.caelum.ingresso.desconto;
+package br.com.caelum.ingresso.desconto;
 
 
 import br.com.caelum.ingresso.desconto.SemDesconto;
